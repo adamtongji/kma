@@ -160,7 +160,7 @@ newIntronRetention <- function(targetExpression,
         data.table()
 
     intron_to_ext <- intron_to_ext %>%
-        left_join(intron_to_gene, by = c("intron"))
+        merge(intron_to_gene, by = c("intron"))
 
     # TODO: add a list "filters" which keeps track of all the filters and their
     # calls
@@ -217,11 +217,11 @@ melt_retention <- function(ret, num, denom, groupings)
 
     m_res <- inner_join(num, denom, by = c("intron", "sample"))
     m_res <- m_res %>%
-        inner_join(ret, by = c("intron", "sample"))
+        merge(ret, by = c("intron", "sample"))
 
     samp_to_condition <- data.table(samp_to_condition)
     m_res <- data.table(m_res)
-    left_join(m_res, samp_to_condition, by = "sample")
+    merge(m_res, samp_to_condition, by = "sample")
 }
 
 
@@ -305,7 +305,7 @@ add_gene_names <- function(dat, ir)
 
     nrow_before <- nrow(dat)
     dat <- data.table(dat) %>%
-        left_join(data.table(ir$intron_to_ext), by = "intron")
+        merge(data.table(ir$intron_to_ext), by = "intron")
 
     nrow_after <- nrow(dat)
     stopifnot(nrow_before == nrow_after)
