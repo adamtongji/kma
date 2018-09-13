@@ -98,7 +98,7 @@ newIntronRetention <- function(targetExpression,
             -matches("intron_extension"),
             -matches("intron"),-matches("strand")) %>%
         arrange(intron) %>%
-        left_join(
+        merge(
             select(intronToUnion, intron, intron_extension) %>%
                 distinct(),
             by = c("intron"))
