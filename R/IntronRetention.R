@@ -95,7 +95,8 @@ newIntronRetention <- function(targetExpression,
         group_by(intron) %>%
         select(-(target_id)) %>%
         summarise_each(funs(sum), -matches("gene"),
-            -matches("intron_extension")) %>%
+            -matches("intron_extension"),
+            -matches("intron"),-matches("strand")) %>%
         arrange(intron) %>%
         left_join(
             select(intronToUnion, intron, intron_extension) %>%
